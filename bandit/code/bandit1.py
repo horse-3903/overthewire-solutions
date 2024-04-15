@@ -9,25 +9,45 @@ password = None
 with open(f"./bandit/password/{username}-password.txt") as f:
     password = f.read()
 
-s = pwn.ssh(host=hostname, user=username, password=password, port=2220)
+print(f"Connecting to {hostname}:2220")
+print(f"Username : {username}")
+print(f"Password : {password}")
 
-if s.connected():
+connect = pwn.ssh(host=hostname, user=username, password=password, port=2220)
+
+def send_command(command: str) -> pwn.tubes.ssh.ssh_channel:
+    print(f"Sending process : `{command}`", end="...")
+    channel = connect.system(command)
+    print("Done")
+
+    return channel
+
+def receive_output(channel: pwn.tubes.ssh.ssh_channel) -> bytes:
+    print("Receiving output", end="...")
+    output = channel.recvline(keepends=False)
+    print("Done")
+
+    print(output.decode())
+
+    return output
+
+if connect.connected():
     # find all files in current directory
-    p = s.system("ls")
+    channel = send_command("ls")
 
-    files = p.recvline(keepends=False).decode()
+    files = receive_output(channel).decode()
     files = files.split()
 
     for f in files:
         # read file data
         if f[0] == "-":
-            p = s.system(f"cat <{f}")
+            channel = send_command(f"cat <{f}")
         else:
-            p = s.system(f"cat {f}")
+            channel = send_command(f"cat {f}")
 
-        d = p.recvline(keepends=False).decode()
+        result = receive_output(channel).decode()
 
-    s.close()
+    connect.close()
 
 with open(f"./bandit/password/{username[:-1]}{int(username[-1])+1}-password.txt", "w+") as f:
-    f.write(d)
+    f.write(result)

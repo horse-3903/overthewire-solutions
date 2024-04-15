@@ -2,7 +2,8 @@ import pwn
 
 pwn.context.log_level = "WARNING"
 
-username = "bandit0"
+n = 0
+username = f"bandit{n}"
 hostname = "bandit.labs.overthewire.org"
 password = "bandit0"
 

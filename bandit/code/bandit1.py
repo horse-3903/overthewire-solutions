@@ -31,6 +31,3 @@ if s.connected():
 
 with open(f"./bandit/password/{username[:-1]}{int(username[-1])+1}-password.txt", "w+") as f:
     f.write(d)
-
-# learning point : 
-#   - if file has '-' in front of filename, add '<' to access it

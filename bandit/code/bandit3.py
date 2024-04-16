@@ -47,16 +47,15 @@ def receive_output(channel: pwn.tubes.ssh.ssh_channel) -> str:
 
 if connect.connected():
     # find all files in current directory
-    channel = send_command("ls")
+    channel = send_command(["ls"])
     dir = receive_output(channel)
 
     # find all files, including hidden files
-    channel = send_command(f"ls -a {dir}")
+    channel = send_command(["ls", "-a", dir])
     result = receive_output(channel)
     result = result.split()[2:]
 
-    # find all files, including hidden files
-    channel = send_command(f"cat {dir}/{result[0]}")
+    channel = send_command(["cat", f"{dir}/{result[0]}"])
     result = receive_output(channel)
 
     connect.close()

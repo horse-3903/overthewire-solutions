@@ -1,8 +1,11 @@
+import os
 import pwn
 
 pwn.context.log_level = "WARNING"
 
-n = 0
+n = os.path.basename(__file__)
+n = n[n.find("bandit")+6]
+
 username = f"bandit{n}"
 hostname = "bandit.labs.overthewire.org"
 password = "bandit0"

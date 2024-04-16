@@ -44,14 +44,14 @@ def receive_output(channel: pwn.tubes.ssh.ssh_channel) -> str:
 
 if connect.connected():
     # find all files in current directory
-    channel = send_command("ls")
+    channel = send_command(["ls"])
 
     files = receive_output(channel)
     files = files.split()
 
     for f in files:
         # read file data
-        channel = send_command(f"cat {f}")
+        channel = send_command(["cat", f])
 
         result = receive_output(channel)
 

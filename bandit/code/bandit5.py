@@ -58,7 +58,6 @@ if connect.connected():
 
     channel = send_command(["cat", result])
     result = receive_output(channel)
-    print(result.__repr__())
 
     connect.close()
 

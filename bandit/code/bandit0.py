@@ -33,8 +33,7 @@ def receive_output(channel: pwn.tubes.ssh.ssh_channel) -> str:
     output = channel.recv()
     output = output.decode()
 
-    output = output.replace("\n", " ")
-    output = output.strip()
+    output = output.strip("\n")
     print("Done")
 
     print(output)

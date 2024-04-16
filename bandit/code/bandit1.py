@@ -4,7 +4,8 @@ import pwn
 pwn.context.log_level = "WARNING"
 
 n = os.path.basename(__file__)
-n = n[n.find("bandit")+6]
+n = n.split(".")[0]
+n = n[n.find("bandit")+6:]
 
 username = f"bandit{n}"
 hostname = "bandit.labs.overthewire.org"

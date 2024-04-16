@@ -20,7 +20,9 @@ print()
 
 connect = pwn.ssh(host=hostname, user=username, password=password, port=2220)
 
-def send_command(command: str) -> pwn.tubes.ssh.ssh_channel:
+def send_command(command: list[str]) -> pwn.tubes.ssh.ssh_channel:
+    command = " ".join(command)
+    
     print(f"Sending process : `{command}`", end="...")
     channel = connect.system(command)
     print("Done")

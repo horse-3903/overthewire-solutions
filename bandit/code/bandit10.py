@@ -55,6 +55,8 @@ if connect.connected():
 
     channel = send_command(["cat", result, "|", "base64", "--decode"])
     result = receive_output(channel)
+    result = result.split()
+    result = result[-1]
 
     connect.close()
 

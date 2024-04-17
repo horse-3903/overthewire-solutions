@@ -57,5 +57,5 @@ if connect.connected():
 
     connect.close()
 
-with open(f"./bandit/password/{username[:-1]}{int(username[-1])+1}-password.txt", "w+") as f:
+with open(f"./bandit/password/bandit{int(n)+1}-password.txt", "w+") as f:
     f.write(result)

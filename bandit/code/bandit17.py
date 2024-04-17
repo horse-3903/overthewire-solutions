@@ -17,7 +17,7 @@ password = None
 
 print(f"Connecting to {hostname}:2220")
 print(f"Username : {username}")
-print(f"Password : {password}")
+print(f"SSH Key : ./bandit/password/{username}-sshkey.private")
 print()
 
 connect = pwn.ssh(host=hostname, user=username, keyfile=f"./bandit/password/{username}-sshkey.private", port=2220)

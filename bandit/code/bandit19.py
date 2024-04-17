@@ -53,6 +53,9 @@ if connect.connected():
     channel = send_command([f"./{file}"])
     result = receive_output(channel)
 
+    channel = send_command([f"./{file}", "id"])
+    result = receive_output(channel)
+
     channel = send_command([f"./{file}", "cat", "/etc/bandit_pass/bandit20"])
     result = receive_output(channel)
 

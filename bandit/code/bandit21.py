@@ -64,8 +64,7 @@ if connect.connected():
     channel = send_command(["cat", os.path.join(dir, file)])
     command = receive_output(channel)
     command = command.splitlines()[-1]
-    command = command.split()
-    command = [*dict.fromkeys(command).keys()]
+    command = command.split()[5:]
 
     for c in command:
         channel = send_command(["cat", c])

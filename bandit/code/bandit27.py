@@ -1,8 +1,6 @@
 import os
 import pwn
 
-from tqdm import tqdm
-
 pwn.context.log_level = "WARNING"
 
 n = os.path.basename(__file__)
@@ -98,14 +96,17 @@ if connect.connected():
     dir = f"{dir}/"
 
     channel = send_command(["cd", dir, "&&", "git", "clone", "ssh://bandit27-git@localhost:2220/home/bandit27-git/repo"])
-    result = receive_output(channel)    
-    send_lines_remote(["yes"], channel)
-    send_lines_remote([password], channel)
+    result = receive_output(channel)
     
-    channel = send_command(["cd", dir, "&&", "ls"])
-    dir = os.path.join(dir, receive_output(channel))
+    send_lines_remote(["yes"], channel)
+    result = receive_output(channel, 4)
 
-    channel = send_command(["cd", dir, "&&", "ls"])
+    send_lines_remote([password], channel)
+    result = receive_output(channel, 15)
+    
+    dir = os.path.join(dir, "repo")
+
+    channel = send_command(["ls", dir])
     file = receive_output(channel)
 
     channel = send_command(["cd", dir, "&&", "cat", file])

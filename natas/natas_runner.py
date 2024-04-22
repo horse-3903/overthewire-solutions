@@ -1,9 +1,18 @@
+import os
 import webbrowser
-
 import pyperclip
 
 print("Natas Challenge")
-level = int(input("Natas Level : "))
+# level = int(input("Natas Level : "))
+
+dir = os.listdir("./natas/password")
+dir = sorted(dir)
+
+latest = dir[-1]
+latest = latest.split("-")[0]
+latest = latest[latest.find("natas")+5:]
+
+level = int(latest)
 
 username = f"natas{level}"
 password = None

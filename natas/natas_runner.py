@@ -17,7 +17,7 @@ level = int(latest)
 username = f"natas{level}"
 password = None
 
-with open(f"./natas/password/{username}-password.txt", "r") as f:
+with open(f"./natas/password/natas{level:02}-password.txt", "r") as f:
     password = f.read()
 
 website = f"http://{username}.natas.labs.overthewire.org"
@@ -41,5 +41,5 @@ print("Done")
 print(f"Saving new password to next level")
 password = input("Input new password : ")
 
-with open(f"./natas/password/natas{level+1}-password.txt", "w+") as f:
+with open(f"./natas/password/natas{level+1:02}-password.txt", "w+") as f:
     f.write(password)

@@ -38,7 +38,7 @@ print(f"Opening web browser to {website}", end="...")
 webbrowser.open(website, 1)
 print("Done")
 
-print(f"Saving new password to next level")
+print(f"Saving new password of next level : Natas{level+1:02}")
 password = input("Input new password : ")
 
 with open(f"./natas/password/natas{level+1:02}-password.txt", "w+") as f:

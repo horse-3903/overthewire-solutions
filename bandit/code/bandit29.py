@@ -101,7 +101,7 @@ if connect.connected():
     result = receive_output(channel)
     
     send_lines_remote(["yes"], channel)
-    result = receive_output(channel, 4)
+    result = receive_output(channel, 3)
 
     send_lines_remote([password], channel)
     result = receive_output(channel, 15)

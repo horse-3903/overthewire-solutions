@@ -79,7 +79,7 @@ def join_website_dir(website: str, *dir: str) -> str:
 
 body = natas_connect(website=website, username=username, password=password)
 
-print("Finding comments", end="...")
+print("Finding images", end="...")
 img = body.find("img")
 print("Done\n")
 

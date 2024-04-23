@@ -3,16 +3,26 @@ import webbrowser
 import pyperclip
 
 print("Natas Challenge")
-# level = int(input("Natas Level : "))
 
-dir = os.listdir("./natas/password")
-dir = sorted(dir)
+print("""Choose Mode
+1 : Manual Input
+2 : Auto Detect""")
 
-latest = dir[-1]
-latest = latest.split("-")[0]
-latest = latest[latest.find("natas")+5:]
+mode = input("Mode Choice : ")
 
-level = int(latest)
+match mode:
+    case "1":
+        level = int(input("Natas Level : "))
+
+    case "2":
+        dir = os.listdir("./natas/password")
+        dir = sorted(dir)
+
+        latest = dir[-1]
+        latest = latest.split("-")[0]
+        latest = latest[latest.find("natas")+5:]
+
+        level = int(latest)
 
 username = f"natas{level}"
 password = None

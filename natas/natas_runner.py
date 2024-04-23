@@ -6,7 +6,8 @@ print("Natas Challenge")
 
 print("""Choose Mode
 1 : Manual Input
-2 : Auto Detect""")
+2 : Auto Detect
+""")
 
 mode = input("Mode Choice : ")
 

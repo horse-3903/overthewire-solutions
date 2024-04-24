@@ -53,5 +53,5 @@ if mode == "2":
     print(f"Saving new password of next level : natas{level+1:02}")
     password = input("Input new password : ")
 
-with open(f"./natas/password/natas{level+1:02}-password.txt", "w+") as f:
-    f.write(password)
+    with open(f"./natas/password/natas{level+1:02}-password.txt", "w+") as f:
+        f.write(password)

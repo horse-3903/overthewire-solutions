@@ -147,11 +147,22 @@ if connect.connected():
 
     for i in range(26):
         res = rot(cipher, i)
-        print(f"Testing Cipher Key {i:02} : {res}")
+        print(f"Testing Cipher Key {i:02} : {res.__repr__()}", end="...")
+
+        res = res.split()
+        res = res[-1]
+
+        try:
+            connect = pwn.ssh(host=hostname, user=f"krypton{n+1}", password=res, port=2231)
+            print("Success")
+            break
+        except Exception as e:
+            e = str(e)
+            print(f"Failed : {e.strip('.')[:e.find('[') if '[' in e else len(e)]}")
 
     print()
 
-    result = "LEVEL TWO PASSWORD ROTTEN"
+    result = res
 
     save_password(result)
     

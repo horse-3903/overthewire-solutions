@@ -116,7 +116,7 @@ def filter_escape(s: str, allowed: list[str] = [" "]) -> str:
 def save_password(result: str) -> str:
     print(f"Password Found : {result.__repr__()}")
 
-    dir = f"./narnia/password/leviathan{int(n)+1:02}-password.txt"
+    dir = f"./leviathan/password/leviathan{int(n)+1:02}-password.txt"
 
     print(f"Saving password to {dir}", end="...")
 

